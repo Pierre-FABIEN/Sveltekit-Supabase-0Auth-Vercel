@@ -1,11 +1,12 @@
 <script lang="ts">
-  import { onDestroy, onMount } from 'svelte'
+  import { onMount } from 'svelte'
   import { setTransitionLoader } from '$stores/UX/transitionLoaderStore'
   import { fetchMockData } from '$lib/utils/mockService'
   import { enter, exit } from './transition'
   import { isAnimatingOut } from '$stores/UX/isAnimating'
   import { onNavigate } from '$app/navigation'
   import Items from '$components/Items/Items.svelte'
+  import Box from '$components/three/Box.svelte'
   import type { PageData } from "./$types";
 
   let title: HTMLElement
@@ -38,7 +39,8 @@
   in:enter="{{ duration: 1, title, text, link }}"
   out:exit="{{ duration: 1, title, text, link }}"
 >
-  <Items />
+<Items />
+<Box />
 </div>
 
 <style>
