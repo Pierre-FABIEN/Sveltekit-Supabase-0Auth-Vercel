@@ -1,5 +1,6 @@
 <script lang="ts">
 	import gsap from 'gsap';
+	import { t } from '$UITools/Translations/index.js';
 	import { onMount } from 'svelte';
 
 	let title: HTMLElement;
@@ -39,5 +40,12 @@
 	.about {
 		position: absolute;
 		width: 100vw;
+	}
+	.logo {
+		position: absolute;
+		right: 40vw;
+		margin-right: auto;
+		margin-left: auto;
+		transform: scale(4);
 	}
 </style>
