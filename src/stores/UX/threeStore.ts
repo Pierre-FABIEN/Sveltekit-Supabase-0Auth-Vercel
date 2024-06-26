@@ -11,7 +11,7 @@ import { renderService } from '$UITools/threeServices/RenderService';
 import { sceneService } from '$UITools/threeServices/SceneService';
 
 const MAX_WEBGL_CONTEXTS = 5;
-let renderers = []; // Stocker les instances de renderer
+let renderers: any[] = []; // Stocker les instances de renderer
 
 function createThreeStore() {
 	const { subscribe, set } = writable({

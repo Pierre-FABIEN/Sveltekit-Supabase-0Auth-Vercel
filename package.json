@@ -33,6 +33,7 @@
     "gsap": "latest",
     "prettier": "latest",
     "prettier-plugin-svelte": "latest",
+    "prisma": "^5.16.0",
     "sass": "latest",
     "smooth-scrollbar": "latest",
     "svelte": "latest",
@@ -45,6 +46,7 @@
   "type": "module",
   "dependencies": {
     "@auth/sveltekit": "latest",
+    "@prisma/client": "^5.16.0",
     "@splidejs/splide-extension-auto-scroll": "latest",
     "@splidejs/svelte-splide": "latest",
     "@supabase/auth-helpers-sveltekit": "latest",

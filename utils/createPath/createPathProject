@@ -9,6 +9,7 @@ function Write-Tree {
         if ($item.Name -ne "node_modules" -and
          $item.Name -ne ".svelte-kit" -and
          $item.Name -ne "build" -and
+         $item.Name -ne "utils" -and
          $item.Name -ne ".vercel"
          ) {
             $writer.WriteLine($item.FullName)
@@ -19,8 +20,8 @@ function Write-Tree {
     }
 }
 
-$folder = "C:\Web\TestAuth\"
-$outputFile = "C:\Web\TestAuth\utils\createPath\PathIndicator.txt"
+$folder = "C:\Web\Sveltekit-Supabase-0Auth-Vercel\"
+$outputFile = "C:\Web\Sveltekit-Supabase-0Auth-Vercel\utils\createPath\PathIndicator.txt"
 
 $writer = [System.IO.StreamWriter]::new($outputFile)
 Write-Tree -folder $folder -writer $writer
