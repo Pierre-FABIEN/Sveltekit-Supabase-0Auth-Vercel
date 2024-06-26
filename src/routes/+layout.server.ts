@@ -1,43 +1,30 @@
-import { getServerSession } from "@supabase/auth-helpers-sveltekit"
-import type { LayoutServerLoad } from "./$types"
-import {
-  locales,
-  loadTranslations,
-  translations,
-  defaultLocale,
-} from '$UITools/Translations'
+import type { LayoutServerLoad } from './$types';
+import { locales, loadTranslations, translations, defaultLocale } from '$UITools/Translations';
 
 export const load: LayoutServerLoad = async (event) => {
-  const { url, cookies, request, locals } = event
-  const { pathname } = url
+  const { url, cookies, request, locals } = event;
+  const { pathname } = url;
 
-  const session = await locals.getSession()
-  console.log('Session:', session) // Vérifiez que la session est bien récupérée
+  const session = await locals.getSession();
 
-  // Try to get the locale from cookie
-  let locale = (cookies.get('lang') || '').toLowerCase()
+  let locale = (cookies.get('lang') || '').toLowerCase();
 
-  // Get user preferred locale
   if (!locale) {
-    const acceptLanguageHeader = request.headers.get('accept-language') || ''
-    locale = (acceptLanguageHeader.match(/[a-zA-Z]+?(?=-|_|,|;)/) || [
-      defaultLocale,
-    ])[0].toLowerCase()
+    const acceptLanguageHeader = request.headers.get('accept-language') || '';
+    locale = (acceptLanguageHeader.match(/[a-zA-Z]+?(?=-|_|,|;)/) || [defaultLocale])[0].toLowerCase();
   }
 
-  // Get defined locales
-  const supportedLocales = locales.get().map((l) => l.toLowerCase())
+  const supportedLocales = locales.get().map((l) => l.toLowerCase());
 
-  // Use default locale if current locale is not supported
   if (!supportedLocales.includes(locale)) {
-    locale = defaultLocale
+    locale = defaultLocale;
   }
 
-  await loadTranslations(locale, pathname) // Load translations for the current locale and path
+  await loadTranslations(locale, pathname);
 
   return {
-    session: await getServerSession(event),
+    session,
     i18n: { locale, route: pathname },
-    translations: translations.get(), // Return loaded translations
-  }
-}
+    translations: translations.get(),
+  };
+};

@@ -1,14 +1,20 @@
-import { addTranslations, setLocale, setRoute } from '$UITools/Translations'
+import type { LayoutLoad } from "./$types";
+import { addTranslations, setLocale, setRoute } from '$UITools/Translations';
+import {supabase} from '$lib/supabase/supabaseClient';
 
-/** @type {import('@sveltejs/kit').Load} */
-export const load = async ({ data }) => {
-  const { i18n, translations, session } = data // Ajoutez session ici
-  const { locale, route } = i18n
+export const load: LayoutLoad = async ({ data, depends }) => { // Retirer fetch
+  const { i18n, translations } = data;
+  const { locale, route } = i18n;
 
-  addTranslations(translations)
+  depends("supabase:auth");
 
-  await setRoute(route)
-  await setLocale(locale)
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  return { ...i18n, session } // Retournez aussi la session
-}
+  addTranslations(translations);
+  await setRoute(route);
+  await setLocale(locale);
+
+  return { ...i18n, session, supabase };
+};

@@ -12,21 +12,17 @@
   let text: HTMLElement
   let link: HTMLElement
   let path: string | null
-
-
-  export let data: PageData;
-
-  $: console.log('Data received in +page.svelte:', data);
-
-
+  
   onNavigate((navigation) => {
     path = navigation.to?.route.id ?? null
   })
 
-  onMount(() => {
+  onMount(async () => {
     setTransitionLoader(false)
     fetchMockData
   })
+
+  
 </script>
 
 <svelte:head>

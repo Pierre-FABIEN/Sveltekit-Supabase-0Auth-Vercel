@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { onNavigate } from '$app/navigation';
-	import { invalidateAll } from '$app/navigation';
-	import { supabase } from '$lib/supabaseClient';
-
+	import { invalidate } from '$app/navigation';
 	import App from '$lib/js/index';
 	//import { registerServiceWorker } from '$UITools/serviceWorker';
 	import Head from '$components/Head.svelte';
@@ -14,9 +12,15 @@
 	import {
 		firstLoadComplete,
 		loadingStates,
+		setDomLoaded,
 		setFirstOpen,
 		setRessourceToValide
 	} from '$stores/UX/initialLoaderStore';
+
+	export let data;
+
+let { supabase, session } = data;
+$: ({ supabase, session } = data);
 
 	onNavigate(async (navigation) => {
 		if (!document.startViewTransition) return;
@@ -54,23 +58,25 @@
 	});
 
 	
-	onMount(async () => {
+	onMount(() => {
 		new App();
 		//registerServiceWorker();
 		// Détermine le premier chargement de l'application
 		setFirstOpen(true);
 		setRessourceToValide(true);
-
+		setDomLoaded(true);
+		
 		const {
 			data: { subscription }
-		} = supabase.auth.onAuthStateChange(() => {
-			console.log('Auth state change detected');
-			invalidateAll();
+		} = supabase.auth.onAuthStateChange((event, _session) => {
+			if (_session?.expires_at !== session?.expires_at) {
+				invalidate('supabase:auth');
+			}
 		});
+		console.log(session, 'session');
+		
 
-		return () => {
-			subscription.unsubscribe();
-		};
+		return () => subscription.unsubscribe();
 	});
 </script>
 

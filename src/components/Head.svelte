@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores'
+	import { supabase } from '$lib/supabase/supabaseClient';
   import DarkMode from '$UITools/DarkMode/index.svelte'
   import { t, locale, locales } from '$UITools/Translations/index'
   
@@ -12,6 +13,19 @@
     document.cookie = `lang=${value};`
     location.reload()
   }
+
+  async function signInWithGoogle() {
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: 'http://localhost:1000'
+      }
+    });
+  }
+
+  async function logout() {
+		await supabase.auth.signOut();
+	}
 </script>
 
 <header>
@@ -36,7 +50,7 @@
           : undefined}"
       >
         <a href="/protected">Protected</a>
-        <a href="/login">login</a>
+
       </li>
     </ul>
   </nav>
@@ -55,6 +69,16 @@
     </select>
 
     <DarkMode />
+    {#if $page.data.session}
+      <button on:click="{logout}">
+        logout
+      </button>
+    {:else}
+        <button
+        class="bg-black text-white w-full text-center py-4 px-4 mt-2 hover:shadow-lg"
+        on:click={signInWithGoogle}>Sign In With Google</button
+      >
+    {/if}
 
     <FullScreen />
   </div>

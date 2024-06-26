@@ -1,5 +1,5 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { supabase } from '$lib/supabaseClient';
+import { supabase } from '$lib/supabase/supabaseClient';
 
 export const GET: RequestHandler = async () => {
   const { data, error } = await supabase.from('test').select('*');

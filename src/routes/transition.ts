@@ -2,7 +2,7 @@ import gsap from 'gsap';
 import { wrapNewLines } from '$lib/js/wrapNewLines';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 
-export const enter = (node: any, { duration = 0.5, title, text, link }) => {
+export const enter = (node: any, { duration = 0.5 }) => {
 	gsap.registerPlugin(ScrollTrigger);
 
 	const timeline = gsap.timeline({ defaults: { duration } });
@@ -13,12 +13,6 @@ export const enter = (node: any, { duration = 0.5, title, text, link }) => {
 		ease: 'power2.out'
 	});
 
-	timeline.from(link, {
-		opacity: 0,
-		y: 100,
-		ease: 'power2.out'
-	});
-
 	return {
 		delay: 0,
 		duration: timeline.duration() * 1000,
@@ -26,7 +20,7 @@ export const enter = (node: any, { duration = 0.5, title, text, link }) => {
 	};
 };
 
-export const exit = (node: any, { duration = 0.5, title, text, link }) => {
+export const exit = (node: any, { duration = 0.5 }) => {
 	gsap.registerPlugin(ScrollTrigger);
 
 	// if ((pathOut = '/')) {
@@ -38,12 +32,6 @@ export const exit = (node: any, { duration = 0.5, title, text, link }) => {
 		opacity: 1,
 		x: '-100vw',
 		ease: 'power2.out'
-	});
-
-	timeline.to(link, {
-		opacity: 0,
-		y: -100,
-		ease: 'power2.in'
 	});
 
 	return {
